@@ -16,12 +16,14 @@ const homeServices = services.filter(s => (homepageServiceIds ?? services.map(s 
   <Hero />
 
   <!-- 2. SERVICES GRID -->
-  <section style="position:relative; z-index:10; background:#f4f4f4; padding: 0 0 70px;">
+  <section style="position:relative; z-index:10; background:#f4f4f4; margin-top:-60px; padding: 0 0 70px;">
+    <!-- white strip at top creates visual border between hero and cards -->
+    <div style="background:#fff; height:16px; width:100%; margin-bottom:0;"></div>
     <div style="max-width:1200px; margin:0 auto; padding:0 40px;">
-      <!-- Top row: pulled up over hero -->
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; transform:translateY(-70px); margin-bottom:-70px;">
+      <!-- Top row: pulled up, cards float above hero bottom -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
         {homeServices.slice(0,3).map((svc) => (
-          <a href={`/services#${svc.id}`} style="background:#fff; display:flex; flex-direction:column; text-decoration:none; border-radius:4px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.10); transition:box-shadow 0.25s, transform 0.25s;"
+          <a href={`/services#${svc.id}`} style="background:#fff; display:flex; flex-direction:column; text-decoration:none; border-radius:4px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.10); border:3px solid #fff; transition:box-shadow 0.25s, transform 0.25s;"
             onmouseover="this.style.boxShadow='0 8px 32px rgba(0,0,0,0.16)';this.style.transform='translateY(-4px)'"
             onmouseout="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'">
             <div style="overflow:hidden; height:200px; flex-shrink:0;">
@@ -41,7 +43,7 @@ const homeServices = services.filter(s => (homepageServiceIds ?? services.map(s 
       <!-- Bottom row: normal flow -->
       <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:24px;">
         {homeServices.slice(3).map((svc) => (
-          <a href={`/services#${svc.id}`} style="background:#fff; display:flex; flex-direction:column; text-decoration:none; border-radius:4px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.10); transition:box-shadow 0.25s, transform 0.25s;"
+          <a href={`/services#${svc.id}`} style="background:#fff; display:flex; flex-direction:column; text-decoration:none; border-radius:4px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.10); border:3px solid #fff; transition:box-shadow 0.25s, transform 0.25s;"
             onmouseover="this.style.boxShadow='0 8px 32px rgba(0,0,0,0.16)';this.style.transform='translateY(-4px)'"
             onmouseout="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'">
             <div style="overflow:hidden; height:200px; flex-shrink:0;">
