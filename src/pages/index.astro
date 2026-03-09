@@ -15,29 +15,29 @@ const homeServices = services.filter(s => (homepageServiceIds ?? services.map(s 
   <!-- 1. HERO -->
   <Hero />
 
-  <!-- 2. SERVICES GRID -->
-  <section style="background:#f5f5f5; padding: 60px 40px 60px;">
-    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns: repeat(3, 1fr); gap:0;">
-      {homeServices.map((svc, i) => (
-        <div class="group" style={`background:#fff; display:flex; flex-direction:column; ${i < homeServices.length - 1 ? "border-right:2px solid #111;" : ""}`}>
-          <div style="padding: 20px 20px 0 20px; overflow:hidden;">
+  <!-- 2. SERVICES GRID — overlaps hero with shadow cards -->
+  <section style="position:relative; z-index:10; background:transparent; padding: 0 24px 60px;">
+    <div style="max-width:1140px; margin:0 auto; display:grid; grid-template-columns: repeat(3, 1fr); gap:24px;">
+      {homeServices.map((svc) => (
+        <a href={`/services#${svc.id}`}
+          style="background:#fff; display:flex; flex-direction:column; box-shadow:0 4px 24px rgba(0,0,0,0.13); text-decoration:none; overflow:hidden;"
+        >
+          <div style="overflow:hidden; height:240px; flex-shrink:0;">
             <img
               src={svc.image?.url ?? ''}
               alt={svc.image?.alt ?? svc.name}
-              style="width:100%; height:220px; object-fit:cover; display:block; transition:transform 0.5s;"
-              onmouseover="this.style.transform='scale(1.05)'"
-              onmouseout="this.style.transform='scale(1)'"
-              onerror="this.style.background='#e5e7eb';"
+              style="width:100%; height:100%; object-fit:cover; display:block;"
+              onerror="this.parentElement.style.background='#e5e7eb';"
             />
           </div>
-          <div style="padding: 24px 30px 36px; display:flex; flex-direction:column; align-items:center; text-align:center; flex:1;">
-            <h3 style="font-size:1.2rem; font-weight:700; color:#111; margin:0 0 12px;">{svc.name}</h3>
-            <p style="color:#666; font-size:0.93rem; line-height:1.75; flex:1; margin:0 0 24px;">{svc.shortDescription}</p>
-            <a href={`/services#${svc.id}`}
-              style="background:#F2A93B; color:#111; font-weight:700; font-size:0.875rem; padding:11px 30px; border-radius:999px; display:inline-block;"
-            >Read More</a>
+          <div style="padding: 26px 28px 32px; display:flex; flex-direction:column; flex:1;">
+            <h3 style="font-size:1.25rem; font-weight:700; color:#111; margin:0 0 10px;">{svc.name}</h3>
+            <p style="color:#666; font-size:0.9rem; line-height:1.7; flex:1; margin:0 0 22px;">{svc.shortDescription}</p>
+            <span style="background:#F2A93B; color:#111; font-weight:700; font-size:0.85rem; padding:10px 24px; display:inline-block; align-self:flex-start;">
+              Read More
+            </span>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   </section>
@@ -70,30 +70,68 @@ const homeServices = services.filter(s => (homepageServiceIds ?? services.map(s 
   <!-- 4. TESTIMONIALS -->
   <Testimonials />
 
-  <!-- 5. FAQ -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10">
-      <div class="text-center mb-14">
-        <p class="uppercase text-xs tracking-widest text-gray-400 font-semibold mb-3">COMMON QUESTIONS</p>
-        <h2 class="text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
+  <!-- 5. FAQ — two independent accordion columns, Avada style -->
+  <section style="padding:80px 24px; background:#fff;">
+    <div style="max-width:1140px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:56px;">
+        <p style="text-transform:uppercase; font-size:0.7rem; letter-spacing:0.15em; color:#aaa; font-weight:600; margin:0 0 10px;">COMMON QUESTIONS</p>
+        <h2 style="font-size:2.5rem; font-weight:700; color:#111; margin:0;">Frequently Asked Questions</h2>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12">
-        {content.faq.map((item) => (
-          <details class="group border-t border-gray-200">
-            <summary class="flex items-center justify-between cursor-pointer list-none gap-4 py-5">
-              <span class="font-semibold text-gray-900 text-base pr-4">{item.question}</span>
-              <div class="w-7 h-7 flex items-center justify-center flex-shrink-0 border border-gray-200 group-open:border-yellow-400 transition-colors">
-                <svg class="w-3.5 h-3.5 text-gray-500 group-open:rotate-45 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 60px;">
+        <div class="faq-col">
+          {content.faq.filter((_,i)=>i%2===0).map((item) => (
+            <div class="faq-item" style="border-bottom:1px solid #e5e7eb; cursor:pointer;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0;">
+                <span style="font-weight:700; color:#111; font-size:0.95rem;">{item.question}</span>
+                <div class="faq-box" style="width:28px; height:28px; flex-shrink:0; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s;">
+                  <span class="faq-icon" style="font-size:1rem; font-weight:700; color:#888; line-height:1;">+</span>
+                </div>
               </div>
-            </summary>
-            <p class="pb-5 text-gray-500 text-base leading-relaxed">{item.answer}</p>
-          </details>
-        ))}
+              <p class="faq-answer" style="display:none; padding:0 0 16px; color:#666; font-size:0.92rem; line-height:1.75; margin:0;">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+        <div class="faq-col">
+          {content.faq.filter((_,i)=>i%2!==0).map((item) => (
+            <div class="faq-item" style="border-bottom:1px solid #e5e7eb; cursor:pointer;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0;">
+                <span style="font-weight:700; color:#111; font-size:0.95rem;">{item.question}</span>
+                <div class="faq-box" style="width:28px; height:28px; flex-shrink:0; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; transition:border-color 0.2s;">
+                  <span class="faq-icon" style="font-size:1rem; font-weight:700; color:#888; line-height:1;">+</span>
+                </div>
+              </div>
+              <p class="faq-answer" style="display:none; padding:0 0 16px; color:#666; font-size:0.92rem; line-height:1.75; margin:0;">{item.answer}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
+
+  <script>
+    document.querySelectorAll('.faq-col').forEach(col => {
+      col.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const answer = item.querySelector('.faq-answer');
+          const icon = item.querySelector('.faq-icon');
+          const box = item.querySelector('.faq-box');
+          const isOpen = answer.style.display !== 'none';
+          col.querySelectorAll('.faq-item').forEach(el => {
+            el.querySelector('.faq-answer').style.display = 'none';
+            el.querySelector('.faq-icon').textContent = '+';
+            el.querySelector('.faq-icon').style.color = '#888';
+            el.querySelector('.faq-box').style.borderColor = '#ddd';
+          });
+          if (!isOpen) {
+            answer.style.display = 'block';
+            icon.textContent = '×';
+            icon.style.color = '#F2A93B';
+            box.style.borderColor = '#F2A93B';
+          }
+        });
+      });
+    });
+  </script>
 
   <!-- 6. GALLERY -->
   <Gallery />
